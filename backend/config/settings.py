@@ -5,6 +5,7 @@ Reads secrets/config from environment variables (.env file) — never hardcode
 passwords, keys, or credentials here. See backend/.env.example.
 """
 import os
+import dj_database_url
 from pathlib import Path
 from datetime import timedelta
 from decouple import config, Csv
@@ -71,17 +72,9 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database — MySQL (single source of truth for both public site + admin)
 # ---------------------------------------------------------------------------
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("DB_NAME"),
-        "USER": config("DB_USER"),
-        "PASSWORD": config("DB_PASSWORD"),
-        "HOST": config("DB_HOST"),
-        "PORT": config("DB_PORT", default="5432"),
-        "OPTIONS": {
-            "sslmode": "require",
-        },
-    }
+    "default": dj_database_url.config(
+        default=config("DATABASE_URL")
+    )
 }
 
 AUTH_PASSWORD_VALIDATORS = [
