@@ -56,9 +56,20 @@ export default function Home() {
           <h2>Available Now</h2>
           <p>{loading ? "Loading..." : products.length ? "Currently in stock — one of each." : "New pieces dropping soon."}</p>
         </div>
-        {!loading && (products.length
-          ? <div className="product-grid">{products.map((p) => <ProductCard key={p.id} product={p} />)}</div>
-          : <div className="empty-note">Nothing in stock right now — check back soon or message us on WhatsApp.</div>)}
+        {loading ? (
+  <div className="thief-loader">
+    <img src={runner} alt="Loading" />
+    <span>Loading...</span>
+  </div>
+) : products.length ? (
+  <div className="product-grid">
+    {products.map((p) => <ProductCard key={p.id} product={p} />)}
+  </div>
+) : (
+  <div className="empty-note">
+    Nothing in stock right now — check back soon or message us on WhatsApp.
+  </div>
+)}
       </section>
 
       <InfoStrip />
